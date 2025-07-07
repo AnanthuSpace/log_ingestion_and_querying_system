@@ -1,0 +1,26 @@
+[
+  {
+    "level": "warn",
+    "message": "nkcsdcnsdn",
+    "resourceId": "cdsndkn",
+    "commit": "kknskjnsk",
+    "timestamp": "2025-07-06T16:56:54.636Z",
+    "traceId": "8a830cea-8fb2-4d8b-b963-2dac3a777422",
+    "spanId": "d6052f1c-3d0b-4cef-8939-f31060ba5b30",
+    "metadata": {
+      "parentResourceId": "auto-gen-parent"
+    }
+  },
+  {
+    "level": "error",
+    "message": "dvmvndf df",
+    "resourceId": "knfdjb",
+    "commit": "kndvjbjjvfddf",
+    "timestamp": "2025-07-06T16:59:15.818Z",
+    "traceId": "73f4f245-98bb-4b69-82fb-01293728d6d3",
+    "spanId": "9d6e814f-56ac-4984-a4f4-d4599a1e163a",
+    "metadata": {
+      "parentResourceId": "auto-gen-parent"
+    }
+  }
+]
