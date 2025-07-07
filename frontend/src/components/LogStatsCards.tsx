@@ -1,10 +1,10 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { AlertTriangle, Info, AlertCircle, Bug, Activity } from "lucide-react"
-import type { LogStats } from "../types"
+import { Card, CardContent } from "@/components/ui/card";
+import { AlertTriangle, Info, AlertCircle, Bug, Activity } from "lucide-react";
+import type { LogStats } from "../types";
 
 interface Props {
-  stats: LogStats
-  isLoading?: boolean
+  stats: LogStats;
+  isLoading?: boolean;
 }
 
 export default function LogStatsCards({ stats, isLoading }: Props) {
@@ -18,14 +18,14 @@ export default function LogStatsCards({ stats, isLoading }: Props) {
     },
     {
       title: "Errors",
-      value: stats.errors,
+      value: stats.error,
       icon: AlertCircle,
       color: "text-red-600",
       bgColor: "bg-red-50",
     },
     {
       title: "Warnings",
-      value: stats.warnings,
+      value: stats.warn,
       icon: AlertTriangle,
       color: "text-yellow-600",
       bgColor: "bg-yellow-50",
@@ -44,7 +44,7 @@ export default function LogStatsCards({ stats, isLoading }: Props) {
       color: "text-purple-600",
       bgColor: "bg-purple-50",
     },
-  ]
+  ];
 
   if (isLoading) {
     return (
@@ -58,20 +58,24 @@ export default function LogStatsCards({ stats, isLoading }: Props) {
           </Card>
         ))}
       </div>
-    )
+    );
   }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-      {statItems.map((item) => {
-        const Icon = item?.icon
+      {statItems.map((item, index) => {
+        const Icon = item?.icon;
         return (
-          <Card key={item?.title} className="hover:shadow-md transition-shadow">
+          <Card key={index} className="hover:shadow-md transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">{item?.title}</p>
-                  <p className="text-2xl font-bold text-gray-900">{item?.value}</p>
+                  <p className="text-sm font-medium text-gray-600">
+                    {item?.title}
+                  </p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {item?.value}
+                  </p>
                 </div>
                 <div className={`p-3 rounded-full ${item?.bgColor}`}>
                   <Icon className={`h-6 w-6 ${item?.color}`} />
@@ -79,8 +83,8 @@ export default function LogStatsCards({ stats, isLoading }: Props) {
               </div>
             </CardContent>
           </Card>
-        )
+        );
       })}
     </div>
-  )
+  );
 }

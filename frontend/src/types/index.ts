@@ -21,8 +21,8 @@ export interface LogFilters {
 
 export interface LogStats {
   total: number
-  errors: number
-  warnings: number
+  error: number
+  warn: number
   info: number
   debug: number
 }

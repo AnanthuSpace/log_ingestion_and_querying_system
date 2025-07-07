@@ -3,7 +3,6 @@ const { readLogs, writeLogs } = require('../utils/jsonDB');
 const postLog = (req, res) => {
   try {
     const log = req.body;
-    console.log(log)
     const requiredFields = [
       'level', 'message', 'resourceId', 'timestamp',
       'traceId', 'spanId', 'commit', 'metadata'
@@ -57,4 +56,29 @@ const getLogs = (req, res) => {
   }
 };
 
-module.exports = { postLog, getLogs };
+const getStatus = async (req, res) => {
+  try {
+    const logs = readLogs(); 
+
+    const stats = {
+      total: logs.length,
+      info: 0,
+      debug: 0,
+      warn: 0,
+      error: 0,
+    };
+
+    logs.forEach((log) => {
+      if (stats[log.level] !== undefined) {
+        stats[log.level]++;
+      }
+    });
+    res.status(200).json(stats);
+  } catch (err) {
+    console.error("Failed to retrieve log stats:", err);
+    res.status(500).json({ error: "Failed to retrieve log stats" });
+  }
+};
+
+
+module.exports = { postLog, getLogs, getStatus };

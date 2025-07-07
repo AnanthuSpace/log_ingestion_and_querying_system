@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { fetchLogs, postLog } from "../services/api";
+import { fetchLogs, getLogStats, postLog } from "../services/api";
 // import { Badge } from "@/components/ui/badge";
 // import { Card, CardContent } from "@/components/ui/card";
 // import { Switch } from "@/components/ui/switch";
@@ -23,7 +23,7 @@ export default function LogMonitoringDashboard() {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [isStatsLoading, setIsStatsLoading] = useState(true);
-//   const [isRealTimeEnabled, setIsRealTimeEnabled] = useState(false);
+  //   const [isRealTimeEnabled, setIsRealTimeEnabled] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const [form, setForm] = useState({
@@ -33,7 +33,21 @@ export default function LogMonitoringDashboard() {
     commit: "",
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const loadStats = useCallback(async () => {
+    setIsStatsLoading(true);
+    try {
+      const statsData = await getLogStats();
+      setStats(statsData);
+    } catch (err) {
+      toast.error("Failed to fetch log stats");
+    } finally {
+      setIsStatsLoading(false);
+    }
+  }, [filters]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -49,6 +63,10 @@ export default function LogMonitoringDashboard() {
       setIsLoading(false);
     }
   }, [filters]);
+
+  useEffect(() => {
+    loadStats();
+  }, []);
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -130,7 +148,8 @@ export default function LogMonitoringDashboard() {
           setFilters={setFilters}
           onExport={() => {
             const json = JSON.stringify(logs, null, 2);
-            const uri = "data:application/json;charset=utf-8," + encodeURIComponent(json);
+            const uri =
+              "data:application/json;charset=utf-8," + encodeURIComponent(json);
             const filename = `logs-${Date.now()}.json`;
             const link = document.createElement("a");
             link.setAttribute("href", uri);
@@ -175,7 +194,9 @@ export default function LogMonitoringDashboard() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium">Resource ID</label>
+                  <label className="block text-sm font-medium">
+                    Resource ID
+                  </label>
                   <input
                     type="text"
                     name="resourceId"
@@ -185,7 +206,9 @@ export default function LogMonitoringDashboard() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium">Commit Hash</label>
+                  <label className="block text-sm font-medium">
+                    Commit Hash
+                  </label>
                   <input
                     type="text"
                     name="commit"
